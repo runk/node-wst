@@ -1,0 +1,4 @@
+node-wst
+========
+
+wstrust middleware
