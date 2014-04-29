@@ -1,6 +1,6 @@
 {
   "name": "wst",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/runk/node-wst",
   "description": "WSTrust middleware",
   "keywords": ["wst", "wstrust"],
