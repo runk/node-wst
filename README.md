@@ -20,7 +20,7 @@ Dumb easy WS-Trust expressjs/connect middleware
     app.use(wst({authorize: authorizer, ttl: 86400}));
 
 
-## Session persistent
+## Session persistence
 
 By default middleware keeps all tokens in memory, however you can override this behaviour by using
 custom token storage object.
