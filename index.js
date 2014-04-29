@@ -16,19 +16,12 @@ module.exports = function(options) {
 
   return function(req, res, next) {
 
-    // console.log(req);
-
     rbody(req, {
-      // length: req.headers['content-length'],
       limit: '32kb',
       encoding: 'utf8'
     }, function (err, raw) {
       if (err)
         return next(err);
-
-      // console.log('============================================================')
-      // console.log(raw);
-      // console.log('============================================================')
 
       parser(raw, function (err, result) {
         if (err) return next(err);
