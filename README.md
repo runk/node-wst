@@ -12,23 +12,18 @@ Dumb easy WS-Trust expressjs/connect middleware
 ## Usage
 
     var wst = require('wst');
-    var authorizer = function(credentials, cb) {
-      cb(null, (credentials.username == 'bob' && credentials.password == 'secret'));
+    var opts = {
+      ttl: 86400,
+      secret: 's3cr3t', // long secret string
+      authorize: function(credentials, cb) {
+        if (credentials.username == 'bob' && credentials.password == 'secret')
+          return cb(null, {userId: 1});
+        cb(null, null);
+      }
     };
 
     // app = express();
-    app.use(wst({authorize: authorizer, ttl: 86400}));
-
-
-## Session persistence
-
-By default middleware keeps all tokens in memory, however you can override this behaviour by using
-custom token storage object.
-
-    var myStorage = {
-      get: function(token, cb) { /* ... */ },
-      set: function(token, meta, cb) { /* ... */ },
-      delete: function(token, cb) { /* ... */ }
-    };
-
-    app.use(wst({authorize: authorizer, storage: myStorage}));
+    app.post('/auth/token', wst.auth(opts));
+    app.post('/make/me/happy', wst.check(opts), function(req, res, next) {
+      res.send('success');
+    });
