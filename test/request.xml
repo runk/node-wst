@@ -1,0 +1,42 @@
+<S:Envelope xmlns:S="http://www.w3.org/2003/05/soap-envelope"
+   xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+   xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+   xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+  <S:Header>
+    <wsse:Security S:mustUnderstand="1">
+      <wsse:BinarySecurityToken wsu:Id="SecurityToken-id"
+        EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"
+        ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3">Gateway X509 Certificate</wsse:BinarySecurityToken>
+      <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo></SignedInfo>
+        <SignatureValue></SignatureValue>
+        <KeyInfo>
+          <wsse:SecurityTokenReference>
+            <wsse:Reference URI="#SecurityToken-id"
+              ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/>
+          </wsse:SecurityTokenReference>
+        </KeyInfo>
+      </Signature>
+    </wsse:Security>
+  </S:Header>
+  <S:Body>
+    <RequestSecurityToken xmlns="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
+     xmlns:wsa="http://www.w3.org/2005/08/addressing"
+     xmlns:pol="http://schemas.xmlsoap.org/ws/2004/09/policy">
+      <RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</RequestType>
+      <pol:AppliesTo>
+        <wsa:EndpointReference>
+          <wsa:Address>http://testHost/HelloService</wsa:Address>
+        </wsa:EndpointReference>
+      </pol:AppliesTo>
+      <OnBehalfOf>
+        <wsse:UsernameToken
+        xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+          <wsse:Username>jdoe</wsse:Username>
+          <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">pwd</wsse:Password>
+        </wsse:UsernameToken>
+      </OnBehalfOf>
+      <TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</TokenType>
+    </RequestSecurityToken>
+  </S:Body>
+</S:Envelope>

@@ -1,0 +1,30 @@
+{
+  "name": "wst",
+  "version": "0.0.1",
+  "homepage": "https://github.com/runk/node-wst",
+  "description": "WSTrust middleware",
+  "keywords": ["wst", "wstrust"],
+  "author": "Dmitry Shirokov <deadrunk@gmail.com>",
+  "contributors": [],
+  "dependencies": {
+    "xml2js": "0.4.x",
+    "raw-body": "1.1.x"
+  },
+  "devDependencies": {
+    "mocha": "latest"
+  },
+  "repository": {
+    "type":"git",
+    "url":"git@github.com:runk/node-wst.git"
+  },
+  "bugs": {
+    "mail":"deadrunk@gmail.com",
+    "url":"http://github.com/runk/node-wst/issues"
+  },
+  "main": "index.js",
+  "engine": { "node": ">=0.8.0", "npm": "1" },
+  "license": "MIT",
+  "scripts": {
+    "test":  "mocha -R spec --recursive"
+  }
+}
