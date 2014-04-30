@@ -66,22 +66,24 @@ describe('index', function() {
 
     it('should error for bad request', function(done) {
       var mw = index.auth({secret: 'pwd!', authorize: function(credentials, cb) {}});
-
-      mw(req, {}, function(err) {
-        assert.equal(err.message, 'Non-whitespace before first tag.\nLine: 0\nColumn: 1\nChar: b');
+      res.send = function(code, msg) {
+        assert.equal(code, 422);
+        assert.equal(msg, 'Non-whitespace before first tag.\nLine: 0\nColumn: 1\nChar: b');
         done();
-      });
+      }
+      mw(req, res, next);
       listeners.data('blah');
       listeners.end();
     });
 
     it('should error for bad xml', function(done) {
       var mw = index.auth({secret: 'pwd!', authorize: function(credentials, cb) {}});
-
-      mw(req, {}, function(err) {
-        assert.equal(err.message, 'Cannot find or parse UsernameToken entity');
+      res.send = function(code, msg) {
+        assert.equal(msg, 'Cannot find UsernameToken entity');
+        assert.equal(code, 422);
         done();
-      });
+      }
+      mw(req, res, next);
       listeners.data('<S:Envelope></S:Envelope>');
       listeners.end();
     });

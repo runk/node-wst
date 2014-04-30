@@ -22,7 +22,7 @@ exports.auth = function(options) {
         return next(err);
 
       parser(raw, function (err, result) {
-        if (err) return next(err);
+        if (err) return res.send(422, err.message);
 
         try {
           var request = result['S:Envelope']['S:Body'][0]['RequestSecurityToken'],
@@ -35,7 +35,7 @@ exports.auth = function(options) {
             password: typeof p === 'string' ? p : p._
           };
         } catch (e) {
-          return next(new Error('Cannot find or parse UsernameToken entity'));
+          return res.send(422, 'Cannot find UsernameToken entity');
         }
 
         options.authorize(credentials, function(err, session) {
