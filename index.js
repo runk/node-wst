@@ -74,7 +74,7 @@ exports.check = function(options) {
   assert(options.secret, 'Secret key should be provided')
 
   return function(req, res, next) {
-    var session = token.decrypt(req.headers['x-token'], options.secret);
+    var session = token.decrypt(req.headers['x-securitytoken'], options.secret);
 
     if (!session || Date.now() > session.expiry) return res.send(403);
 

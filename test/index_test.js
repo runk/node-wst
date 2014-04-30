@@ -94,7 +94,7 @@ describe('index', function() {
       var session = {id: 1, expiry: expiry};
       var secret = 's3cr3t';
 
-      req.headers['x-token'] = token.encrypt(session, secret);
+      req.headers['x-securitytoken'] = token.encrypt(session, secret);
       var mw = index.check({secret: secret});
       mw(req, res, function(err) {
         if (err) return done(err);
@@ -108,7 +108,7 @@ describe('index', function() {
       var session = {id: 1, expiry: expiry};
       var secret = 's3cr3t';
 
-      req.headers['x-token'] = token.encrypt(session, secret);
+      req.headers['x-securitytoken'] = token.encrypt(session, secret);
       var mw = index.check({secret: secret});
       res.send = function(code) {
         assert.equal(code, 403);
@@ -119,7 +119,7 @@ describe('index', function() {
 
     it('should deny with invalid key', function(done) {
       var secret = 's3cr3t';
-      req.headers['x-token'] = 'whatever';
+      req.headers['x-securitytoken'] = 'whatever';
       var mw = index.check({secret: secret});
       res.send = function(code) {
         assert.equal(code, 403);
