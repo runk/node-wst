@@ -9,10 +9,7 @@ var fs = require('fs'),
 exports.auth = function(options) {
   options = options || {};
 
-  assert(options.authorize, 'Auth handler function should be provided')
-  assert(options.secret, 'Secret key should be provided')
-
-  // options.storage = options.storage || storage;
+  assert(options.authorize, 'Auth handler function should be provided');
   options.ttl = (options.ttl || 86400) * 1000;
 
   return function(req, res, next) {
@@ -71,7 +68,6 @@ exports.auth = function(options) {
 
 exports.check = function(options) {
   options = options || {};
-  assert(options.secret, 'Secret key should be provided')
 
   return function(req, res, next) {
     var session = token.decrypt(req.headers['x-securitytoken'], options.secret);
