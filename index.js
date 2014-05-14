@@ -6,10 +6,10 @@ var fs = require('fs'),
   token = require('./lib/token');
 
 
-exports.auth = function(options) {
+exports.auth = function(options, authorize) {
   options = options || {};
 
-  assert(options.authorize, 'Auth handler function should be provided');
+  assert(authorize, 'Auth handler function should be provided');
   options.ttl = (options.ttl || 86400) * 1000;
 
   return function(req, res, next) {
@@ -38,12 +38,11 @@ exports.auth = function(options) {
           return res.send(422, 'Cannot find UsernameToken entity');
         }
 
-        options.authorize(credentials, function(err, session) {
+        authorize(credentials, function(err, session) {
           if (err) return next(err);
           if (!session) return res.send(403);
 
-          session.expiry = new Date(Date.now() + options.ttl).toISOString();
-          var key = token.encrypt(session, options.secret);
+          var key = exports.makeKey(session, options);
 
           var map = {
             tsNow: new Date().toISOString(),
@@ -78,4 +77,10 @@ exports.check = function(options) {
     next();
   };
 
+};
+
+
+exports.makeKey = function(session, options) {
+  session.expiry = new Date(Date.now() + options.ttl).toISOString();
+  return token.encrypt(session, options.secret);
 };

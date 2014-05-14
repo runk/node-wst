@@ -32,12 +32,9 @@ describe('index', function() {
         assert(data);
         done();
       };
-      var mw = index.auth({
-        secret: 'pwd!',
-        authorize: function(credentials, cb) {
-          assert.deepEqual(credentials, {username: 'jdoe', password: 'pwd'});
-          cb(null, {id: 123});
-        }
+      var mw = index.auth({secret: 'pwd!'}, function(credentials, cb) {
+        assert.deepEqual(credentials, {username: 'jdoe', password: 'pwd'});
+        cb(null, {id: 123});
       });
 
       mw(req, res, next);
@@ -51,12 +48,9 @@ describe('index', function() {
         done();
       };
 
-      var mw = index.auth({
-        secret: 'pwd!',
-        authorize: function(credentials, cb) {
-          assert.deepEqual(credentials, {username: 'jdoe', password: 'pwd'});
-          cb(null, null);
-        }
+      var mw = index.auth({secret: 'pwd!'}, function(credentials, cb) {
+        assert.deepEqual(credentials, {username: 'jdoe', password: 'pwd'});
+        cb(null, null);
       });
 
       mw(req, res);
@@ -65,7 +59,7 @@ describe('index', function() {
     });
 
     it('should error for bad request', function(done) {
-      var mw = index.auth({secret: 'pwd!', authorize: function(credentials, cb) {}});
+      var mw = index.auth({secret: 'pwd!'}, function(credentials, cb) {});
       res.send = function(code, msg) {
         assert.equal(code, 422);
         assert.equal(msg, 'Non-whitespace before first tag.\nLine: 0\nColumn: 1\nChar: b');
@@ -77,7 +71,7 @@ describe('index', function() {
     });
 
     it('should error for bad xml', function(done) {
-      var mw = index.auth({secret: 'pwd!', authorize: function(credentials, cb) {}});
+      var mw = index.auth({secret: 'pwd!'}, function(credentials, cb) {});
       res.send = function(code, msg) {
         assert.equal(msg, 'Cannot find UsernameToken entity');
         assert.equal(code, 422);
