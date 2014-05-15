@@ -44,7 +44,7 @@ describe('index', function() {
 
     it('should return 403 code with auth error', function(done) {
       res.send = function(code) {
-        assert.equal(code, 403);
+        assert.equal(code, 401);
         done();
       };
 

@@ -40,7 +40,7 @@ exports.auth = function(options, authorize) {
 
         authorize(credentials, function(err, session) {
           if (err) return next(err);
-          if (!session) return res.send(403);
+          if (!session) return res.send(401);
 
           var key = exports.makeKey(session, options);
 
